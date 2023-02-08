@@ -111,55 +111,20 @@ class BinarySearchTree {
     }
 }
 
-function depthFirstSearchInOrder(tree: BinarySearchTree) {
-    if (tree.root === null)
-        return []
-
-    function traverseInOrder(node: BynaryNode, dfs: any[]) {
-        if (node.left !== null) {
-            traverseInOrder(node.left, dfs)
-        }
-        dfs.push(node.value)
-        if (node.right !== null) {
-            traverseInOrder(node.right, dfs)
-        }
-        return dfs
+function breadthFirstSearch(tree: BinarySearchTree) {
+    function traverse(queue: any[], bfs: any[]): any[] | null {
+        if (queue.length < 1)
+            return bfs
+        const currentNode = queue.shift()
+        bfs.push(currentNode.value)
+        if (currentNode.left !== null)
+            queue.push(currentNode.left)
+        if (currentNode.right !== null)
+            queue.push(currentNode.right)
+        return traverse(queue, bfs)
     }
 
-    return traverseInOrder(tree.root, [])
-}
-
-function depthFirstSearchPreOrder(tree: BinarySearchTree) {
-    if (tree.root === null)
-        return []
-    function traversePreOrder(node: BynaryNode, dfs: any[]) {
-        dfs.push(node.value)
-        if (node.left !== null) {
-            traversePreOrder(node.left, dfs)
-        }
-        if (node.right !== null) {
-            traversePreOrder(node.right, dfs)
-        }
-        return dfs
-    }
-    return traversePreOrder(tree.root, [])
-}
-
-function depthFirstSearchPostOrder(tree: BinarySearchTree) {
-    if (tree.root === null)
-        return []
-    function traversePostOrder(node: BynaryNode, dfs: any[]) {
-
-        if (node.left !== null) {
-            traversePostOrder(node.left, dfs)
-        }
-        if (node.right !== null) {
-            traversePostOrder(node.right, dfs)
-        }
-        dfs.push(node.value)
-        return dfs
-    }
-    return traversePostOrder(tree.root, [])
+    return traverse([tree.root], [])
 }
 
 const bst = new BinarySearchTree()
@@ -170,6 +135,5 @@ bst.insert(25)
 bst.insert(35)
 bst.insert(45)
 bst.insert(60)
-const dfs = depthFirstSearchPostOrder(bst)
-console.log(dfs)
-    
+const bfs = bst.breadthFirstSearchRecusive()
+console.log(bfs)
